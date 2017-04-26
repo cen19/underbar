@@ -193,42 +193,6 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-<<<<<<< HEAD
-    if (arguments.length !== 3) {
-      var accumulator = collection[0];
-      if (Array.isArray(collection)) {
-        for (var i = 1; i < collection.length; i++) {
-          accumulator = iterator(accumulator, collection[i]); //collection[i] == 1
-        }
-      } else {
-        for (var x in collection) {
-          accumulator = iterator(accumulator, collection[x]);
-          }
-        }
-        // returns a single value from a collection
-        // return the accumulator
-      return accumulator;
-    }
-
-    if (Array.isArray(collection)) {
-     for (var i = 0; i < collection.length; i++) {
-      accumulator = iterator(accumulator, collection[i]); //collection[i] == 1
-     }
-    } else {
-      for (var x in collection) {
-        accumulator = iterator(accumulator, collection[x]);
-      }
-    }
-    // returns a single value from a collection
-      // return the accumulator
-   return accumulator;
-  };
-
-  /*var identity = _.reduce([5], function(total, number){
-       return total + number * number;
-     });
-  console.log(identity);*/
-=======
     for (var i = 0; i < collection.length)
 
 
@@ -240,7 +204,6 @@
 
 
   };
->>>>>>> ab6ebc311d0035c0b841b4c4a108f1c4903874f7
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -412,8 +375,4 @@
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
   };
-<<<<<<< HEAD
 }());
-=======
-}());
->>>>>>> ab6ebc311d0035c0b841b4c4a108f1c4903874f7
