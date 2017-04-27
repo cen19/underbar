@@ -464,11 +464,7 @@
       it('should not mutate the input array', function() {
         var input = [1,2,3,4,5];
         var result = _.reduce(input, function(memo, item) {return item;});
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> ab6ebc311d0035c0b841b4c4a108f1c4903874f7
         /*
          * Mutation of inputs should be avoided without good justification otherwise
          * as it can often lead to hard to find bugs and confusing code!
@@ -546,11 +542,7 @@
         var result = _.reduce([1,2,3], function(memo, item) {
           return memo * item;
         }, 0);
-<<<<<<< HEAD
         console.log("jason 1: " + result);
-=======
-
->>>>>>> ab6ebc311d0035c0b841b4c4a108f1c4903874f7
         expect(result).to.equal(0);
       });
 
@@ -567,11 +559,7 @@
         var result = _.reduce([3,2,1], function(memo, item) {
           return memo - item;
         });
-<<<<<<< HEAD
         console.log("jason 2: " + result);
-=======
-
->>>>>>> ab6ebc311d0035c0b841b4c4a108f1c4903874f7
         expect(result).to.equal(0);
       });
 

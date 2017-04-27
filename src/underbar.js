@@ -2,7 +2,6 @@
   'use strict';
 
   window._ = {};
-
   // Returns whatever value is passed as the argument. This function doesn't
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
@@ -193,7 +192,6 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-<<<<<<< HEAD
     if (arguments.length !== 3) {
       var accumulator = collection[0];
       if (Array.isArray(collection)) {
@@ -228,19 +226,6 @@
        return total + number * number;
      });
   console.log(identity);*/
-=======
-    for (var i = 0; i < collection.length)
-
-
-    // returns a single value from a collection
-      // return the accumulator
-
-
-    return accumulator;
-
-
-  };
->>>>>>> ab6ebc311d0035c0b841b4c4a108f1c4903874f7
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
@@ -258,6 +243,46 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+
+     // if(collection.length === 0){
+     //  return true;
+     // }
+
+     if(!iterator){
+      var check = true;
+
+       _.each(collection, function(element){
+
+       check = check && element;
+
+       })
+
+       return check;
+     }
+
+    // return _.reduce(collection, function(element){
+
+    //   if(!element){
+    //          return false;
+    //   }
+
+    //   if(iterator(element)){
+    //      return true;
+    //   } else {
+    //      return false;
+    //   }
+
+    //   // return accumulator && iterator(element);
+
+
+    // })
+// split ============
+    return _.reduce(collection, function(status, element){
+      // var check = true;
+      return status && (iterator(element) ? true : false);
+    }, true);
+
+
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -412,8 +437,4 @@
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
   };
-<<<<<<< HEAD
 }());
-=======
-}());
->>>>>>> ab6ebc311d0035c0b841b4c4a108f1c4903874f7
