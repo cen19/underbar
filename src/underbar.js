@@ -210,7 +210,7 @@
 
     if (Array.isArray(collection)) {
      for (var i = 0; i < collection.length; i++) {
-      accumulator = iterator(accumulator, collection[i]); //collection[i] == 1
+      accumulator =  iterator(accumulator, collection[i]); //collection[i] == 1
      }
     } else {
       for (var x in collection) {
@@ -244,51 +244,63 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
 
-     // if(collection.length === 0){
-     //  return true;
-     // }
-
      if(!iterator){
       var check = true;
-
        _.each(collection, function(element){
-
        check = check && element;
-
        })
-
        return check;
      }
 
-    // return _.reduce(collection, function(element){
-
-    //   if(!element){
-    //          return false;
-    //   }
-
-    //   if(iterator(element)){
-    //      return true;
-    //   } else {
-    //      return false;
-    //   }
-
-    //   // return accumulator && iterator(element);
-
-
-    // })
-// split ============
     return _.reduce(collection, function(status, element){
-      // var check = true;
       return status && (iterator(element) ? true : false);
     }, true);
-
-
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
+  // default iterator checks booleans
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+
+    // as soon as something is true, return true
+      // if after all the elements are run through iterator, and none are true; return false;
+      // empty array = false;
+    if (collection.length === 0) {
+      return false;
+    }
+
+
+    if (!iterator) {
+      var exists = false;
+        _.each(collection, function(element){
+          if (element === true) {
+            exists = true;
+          }
+        });
+        return exists;
+    }
+    //
+
+  // Solution #1
+  // var outlier = [];
+  // for(var i = 0; i < collection.length; i++){
+  //   if(iterator(collection[i])){
+  //     outlier.push(collection[i])
+  //   }
+  // }
+
+  // if(outlier.length > 0){
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+
+  // Solution #2
+  return (_.every(collection, function(item) {
+    return iterator(item) ? false : true;
+  })) ? false : true;
+
   };
 
 
@@ -311,11 +323,35 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+
+    //use arguments.length to find out the number of paramaters to chain
+    //assume the input will always be an obj
+    //test to see if everything that is passed is an object
+    //use brackets because we do not know what the keys are called
+    //via using a for in loop
+    //check
+    for (var i = 1; i < arguments.length; i++) {
+      for (var prop in arguments[i]) {
+        obj[prop] = arguments[i][prop];
+      }
+    }
+    return obj;
+
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+
+    for (var i = 1; i < arguments.length; i++) {
+    for (var prop in arguments[i]) {
+      if (!obj.hasOwnProperty(prop)) {
+          obj[prop] = arguments[i][prop];
+        }
+      }
+    }
+    return obj;
   };
 
 
@@ -359,6 +395,36 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+// var cache = {}
+// for(var i = 0; i< arguments.length; i++){
+// cache[arguments[i]] = arguments[i]
+// }
+// for(var x in cache){
+//     return _.once(func.apply(this, cache[x]))
+// }
+
+console.log(typeof func);
+
+
+    // Layman's Solution
+    // var cache = {};
+    // return function() {
+    //   var key = JSON.stringify(arguments);
+    //   if(cache[key]) {
+    //     return cache[key];
+    //   } else {
+    //     var val = func.apply(this, arguments);
+    //     cache[key] = val;
+    //     return val;
+
+    //   }
+    // };
+
+    // _.ONCE REFACTOR SOLUTION
+    // return _.once.apply(this, arguments);
+
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
