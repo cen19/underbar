@@ -50,9 +50,9 @@
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
     if (Array.isArray(collection)) {
-     for (var i = 0; i < collection.length; i++) {
-      iterator(collection[i], i, collection);
-     }
+      for (var i = 0; i < collection.length; i++) {
+        iterator(collection[i], i, collection);
+      }
     } else {
       for (var x in collection) {
         iterator(collection[x], x, collection);
@@ -62,7 +62,7 @@
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
-  _.indexOf = function(array, target){
+  _.indexOf = function(array, target) {
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
@@ -163,7 +163,7 @@
     // TIP: map is really handy when you want to transform an array of
     // values into a new array of values. _.pluck() is solved for you
     // as an example of this.
-    return _.map(collection, function(item){
+    return _.map(collection, function(item) {
       // console.log('collection: ' + JSON.stringify(collection));
       // console.log('key: ' + key)
       // console.log('item[key]: ' + item[key])
@@ -192,35 +192,37 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    // if less than 3 arguments, use the first element as the starting point
     if (arguments.length !== 3) {
       var accumulator = collection[0];
-      if (Array.isArray(collection)) {
-        for (var i = 1; i < collection.length; i++) {
-          accumulator = iterator(accumulator, collection[i]); //collection[i] == 1
-        }
-      } else {
-        for (var x in collection) {
-          accumulator = iterator(accumulator, collection[x]);
-          }
-        }
-        // returns a single value from a collection
-        // return the accumulator
-      return accumulator;
-    }
-
-    if (Array.isArray(collection)) {
-     for (var i = 0; i < collection.length; i++) {
-      accumulator =  iterator(accumulator, collection[i]); //collection[i] == 1
-     }
-    } else {
-      for (var x in collection) {
-        accumulator = iterator(accumulator, collection[x]);
+      // if (Array.isArray(collection)) {
+      for (var i = 1; i < collection.length; i++) {
+        accumulator = iterator(accumulator, collection[i]);
       }
+      return accumulator;
+    } else {
+
+      // if (Array.isArray(collection)) {
+      for (var j = 0; j < collection.length; j++) {
+        accumulator = iterator(accumulator, collection[j]);
+        // }
+        return accumulator;
+      }
+      // var initializing = accumulator === undefined;
+      // _.each(collection, function(item) {
+      //   if (initializing) {
+      //     accumulator = item;
+      //     initializing = false;
+      //   } else {
+      //     accumulator = iterator(accumulator, item);
+      //   }
+      // });
+      // return accumulator;
+
     }
-    // returns a single value from a collection
-      // return the accumulator
-   return accumulator;
   };
+
+
 
   /*var identity = _.reduce([5], function(total, number){
        return total + number * number;
@@ -244,15 +246,15 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
 
-     if(!iterator){
+    if (!iterator) {
       var check = true;
-       _.each(collection, function(element){
-       check = check && element;
-       })
-       return check;
-     }
+      _.each(collection, function(element) {
+        check = check && element;
+      });
+      return check;
+    }
 
-    return _.reduce(collection, function(status, element){
+    return _.reduce(collection, function(status, element) {
       return status && (iterator(element) ? true : false);
     }, true);
   };
@@ -263,9 +265,6 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
 
-    // as soon as something is true, return true
-      // if after all the elements are run through iterator, and none are true; return false;
-      // empty array = false;
     if (collection.length === 0) {
       return false;
     }
@@ -273,33 +272,33 @@
 
     if (!iterator) {
       var exists = false;
-        _.each(collection, function(element){
-          if (element === true) {
-            exists = true;
-          }
-        });
-        return exists;
+      _.each(collection, function(element) {
+        if (element === true) {
+          exists = true;
+        }
+      });
+      return exists;
     }
     //
 
-  // Solution #1
-  // var outlier = [];
-  // for(var i = 0; i < collection.length; i++){
-  //   if(iterator(collection[i])){
-  //     outlier.push(collection[i])
-  //   }
-  // }
+    // Solution #1
+    // var outlier = [];
+    // for(var i = 0; i < collection.length; i++){
+    //   if(iterator(collection[i])){
+    //     outlier.push(collection[i])
+    //   }
+    // }
 
-  // if(outlier.length > 0){
-  //   return true;
-  // } else {
-  //   return false;
-  // }
+    // if(outlier.length > 0){
+    //   return true;
+    // } else {
+    //   return false;
+    // }
 
-  // Solution #2
-  return (_.every(collection, function(item) {
-    return iterator(item) ? false : true;
-  })) ? false : true;
+    // Solution #2
+    return (_.every(collection, function(item) {
+      return iterator(item) ? false : true;
+    })) ? false : true;
 
   };
 
@@ -325,11 +324,7 @@
   _.extend = function(obj) {
 
     //use arguments.length to find out the number of paramaters to chain
-    //assume the input will always be an obj
-    //test to see if everything that is passed is an object
-    //use brackets because we do not know what the keys are called
-    //via using a for in loop
-    //check
+
     for (var i = 1; i < arguments.length; i++) {
       for (var prop in arguments[i]) {
         obj[prop] = arguments[i][prop];
@@ -345,8 +340,8 @@
 
 
     for (var i = 1; i < arguments.length; i++) {
-    for (var prop in arguments[i]) {
-      if (!obj.hasOwnProperty(prop)) {
+      for (var prop in arguments[i]) {
+        if (!obj.hasOwnProperty(prop)) {
           obj[prop] = arguments[i][prop];
         }
       }
@@ -396,36 +391,33 @@
   // instead if possible.
   _.memoize = function(func) {
 
-// var cache = {}
-// for(var i = 0; i< arguments.length; i++){
-// cache[arguments[i]] = arguments[i]
-// }
-// for(var x in cache){
-//     return _.once(func.apply(this, cache[x]))
-// }
 
-console.log(typeof func);
-
-
-    // Layman's Solution
     // var cache = {};
-    // return function() {
-    //   var key = JSON.stringify(arguments);
-    //   if(cache[key]) {
-    //     return cache[key];
-    //   } else {
-    //     var val = func.apply(this, arguments);
-    //     cache[key] = val;
-    //     return val;
+    //    return function(){
+    //      var serialized = Array.prototype.slice.apply(arguments);
+    //      if (!cache.hasOwnProperty(serialized)){
+    //        cache[serialized] = func.apply(this, arguments);
+    //      }
+    //      return cache[serialized];
+    //    }
 
-    //   }
-    // };
 
-    // _.ONCE REFACTOR SOLUTION
-    // return _.once.apply(this, arguments);
+    var storage = {} //aka hash or cache = {};
+
+
+    return function() {
+      var arg = JSON.stringify(arguments); // (1, 2, 3)
+      if (!storage[arg]) {
+        storage[arg] = func.apply(this, arguments);
+      }
+
+      return storage[arg];
+    }
 
 
   };
+
+
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -434,6 +426,17 @@ console.log(typeof func);
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    // setTimeout() -- excecutes a snippet of code after a delay
+
+    // this makes it so we can use the arguments
+    // makes an array from array-like-object
+    // use regular slice when dealing with arrays
+    var args = Array.prototype.slice.call(arguments, 2);
+
+    setTimeout(function() {
+      // func applies (itself, arguments)
+      func.apply(this, args);
+    }, wait);
   };
 
 
@@ -448,6 +451,67 @@ console.log(typeof func);
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+
+
+    var args = Array.prototype.slice.apply(array);
+    //Randomize inside of clone array
+    //iterate each element and assign a arbitary value
+    //Math.random()
+    // sort and put back in array
+    // var randomizeArray = [];
+    // var storage = {}
+    // for (var i = 0; i < args.length; i++) {
+    //   storage[Math.random() * 100] = args[i];
+    //  }
+    //  var sortedObject = Object.keys(storage).sort(function(a,b){
+    //   return a-b;
+    //  })
+
+    // for(var num in storage){
+    //   randomizeArray.push(storage[num]);
+    // }
+
+
+
+    // var currIndex = 0;
+    var tempValue = '';
+    var randomIndex = '';
+
+    for (var j = 0; j < args.length; j++) {
+      randomIndex = Math.floor(Math.random() * j);
+
+      // swap
+      tempValue = args[j];
+      args[j] = args[randomIndex];
+      args[randomIndex] = tempValue;
+    }
+
+
+    return args;
+
+
+
+    //   var currentIndex = array.length;
+    //   var temporaryValue;
+    //   var randomIndex;
+
+    //   // While there remain elements to shuffle...
+    //   while (0 !== currentIndex) {
+
+    //     // Pick a remaining element...
+    //     randomIndex = Math.floor(Math.random() * currentIndex);
+    //     currentIndex -= 1;
+
+    //     // And swap it with the current element.
+    //     temporaryValue = array[currentIndex];
+    //     array[currentIndex] = array[randomIndex];
+    //     array[randomIndex] = temporaryValue;
+    //   }
+
+    //   return array;
+    // }
+
+
   };
 
 
@@ -461,46 +525,39 @@ console.log(typeof func);
 
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
-  _.invoke = function(collection, functionOrKey, args) {
-  };
+  _.invoke = function(collection, functionOrKey, args) {};
 
   // Sort the object's values by a criterion produced by an iterator.
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
-  _.sortBy = function(collection, iterator) {
-  };
+  _.sortBy = function(collection, iterator) {};
 
   // Zip together two or more arrays with elements of the same index
   // going together.
   //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
-  _.zip = function() {
-  };
+  _.zip = function() {};
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, result) {
-  };
+  _.flatten = function(nestedArray, result) {};
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
-  _.intersection = function() {
-  };
+  _.intersection = function() {};
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = function(array) {
-  };
+  _.difference = function(array) {};
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.  See the Underbar readme for extra details
   // on this function.
   //
   // Note: This is difficult! It may take a while to implement.
-  _.throttle = function(func, wait) {
-  };
+  _.throttle = function(func, wait) {};
 }());
