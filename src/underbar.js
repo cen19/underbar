@@ -193,33 +193,33 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     // if less than 3 arguments, use the first element as the starting point
-    if (arguments.length !== 3) {
-      var accumulator = collection[0];
-      // if (Array.isArray(collection)) {
-      for (var i = 1; i < collection.length; i++) {
-        accumulator = iterator(accumulator, collection[i]);
-      }
+    // if (arguments.length !== 3) {
+    //   var accumulator = collection[0];
+    //   // if (Array.isArray(collection)) {
+    //   for (var i = 1; i < collection.length; i++) {
+    //     accumulator = iterator(accumulator, collection[i]);
+    //   }
+    //   return accumulator;
+    // } else {
+
+    //   // if (Array.isArray(collection)) {
+    //   for (var j = 0; j < collection.length; j++) {
+    //     accumulator = iterator(accumulator, collection[j]);
+    //     // }
+    //     return accumulator;
+      // }
+      var initializing = accumulator === undefined;
+      _.each(collection, function(item) {
+        if (initializing) {
+          accumulator = item;
+          initializing = false;
+        } else {
+          accumulator = iterator(accumulator, item);
+        }
+      });
       return accumulator;
-    } else {
 
-      // if (Array.isArray(collection)) {
-      for (var j = 0; j < collection.length; j++) {
-        accumulator = iterator(accumulator, collection[j]);
-        // }
-        return accumulator;
-      }
-      // var initializing = accumulator === undefined;
-      // _.each(collection, function(item) {
-      //   if (initializing) {
-      //     accumulator = item;
-      //     initializing = false;
-      //   } else {
-      //     accumulator = iterator(accumulator, item);
-      //   }
-      // });
-      // return accumulator;
 
-    }
   };
 
 
@@ -523,41 +523,148 @@
    * but nothing beyond here is required.
    */
 
+
+  _.invoke = function(collection, functionOrKey, args) {
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
-  _.invoke = function(collection, functionOrKey, args) {};
+
+  // check if functionOrKey is a function or just a 'string'
+  // if (typeof functionOrKey === 'function') {
+  //   return 'this failed because not a func'
+
+  // } else {
+  //   // var results = [];
+
+  //   for (var i = 0; i < collection.length; i++) {
+  //     results.push(collection[i])
+  //   }
+  // }
+  // // return results;
+
+
+  // };
+
+//collection, method
+//checks if it's a functions or STRING(method)
+// begins map (which will return an array)
+  // declaring what is an function
+  // if (isFunc) {
+  //   func = functionOrKey;
+  // } else {
+  //   func = element[functionOrKey];
+  // }
+
+
+// function(collection, functionOrKey, arg) {
+//     var args = Array.prototype.slice.call(arguments, 2);
+//     var isFunc = typeof functionOrKey === 'function';
+
+//     return _.map(collection, function(element) {
+//       var func = isFunc ? functionOrKey : element[functionOrKey];
+//       return func == null ? func : func.apply(element, args);
+//     });
+//   };
+
+//   })
+
+
+  // _.invoke = function(collection, functionOrKey, args) {
+    return _.map(collection, function(item) {
+      // console.log(item, typeof item);
+      var method;
+      if (typeof(functionOrKey) === 'string') {
+
+        method = item[functionOrKey];
+      } else {
+        method = functionOrKey;
+      }
+
+      return method.apply(item);
+    });
+  };
+
+// argsArray
+// An array-like object, specifying the arguments with which function should be called, or null or undefined if no arguments should be provided to the function. Starting with ECMAScript 5 these arguments can be a generic array-like object instead of an array. See below for browser compatibility information.
+
+
+
+
+
+
+  _.sortBy = function(collection, iterator) {
 
   // Sort the object's values by a criterion produced by an iterator.
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
-  _.sortBy = function(collection, iterator) {};
 
-  // Zip together two or more arrays with elements of the same index
+  // var sortedCollection;
+
+  //  _.each(collection, function(element){
+  //     sortedCollection = iterator(element);
+  //  })
+  //  sortedCollection;
+
+  return _.invoke(collection, function(item) {
+    if (item === undefined) {
+      return undefined;
+    }
+
+  });
+
+
+
+  };
+
+  _.zip = function() {
+      // Zip together two or more arrays with elements of the same index
   // going together.
   //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
-  _.zip = function() {};
+  };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
   // The new array should contain all elements of the multidimensional array.
   //
   // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, result) {};
+  _.flatten = function(nestedArray, result) {
+
+
+
+
+
+  };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
-  _.intersection = function() {};
+  _.intersection = function() {
+
+
+
+
+
+  };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = function(array) {};
+  _.difference = function(array) {
+
+
+
+
+
+  };
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.  See the Underbar readme for extra details
   // on this function.
   //
   // Note: This is difficult! It may take a while to implement.
-  _.throttle = function(func, wait) {};
+  _.throttle = function(func, wait) {}
+
+
+
+
+  ;
 }());
