@@ -102,30 +102,6 @@
   };
 
   // Produce a duplicate-free version of the array.
-  // _.uniq = function(array) { //1,2,2,3,4
-  //   var uniqueArray = [];
-
-  //   for (var i = 0; i < array.length; i++) {
-  //     var moreThanOne = false;
-  //     var count = 0;
-  //     var currentLetter = array[i];
-  //     for (var j = 0; j < array.length; j++) {
-  //       if (currentLetter === array[j]) {
-  //         moreThanOne = true;
-  //         if (moreThanOne)
-
-  //       }
-  //     }
-  //     if (count === 1) {
-  //       uniqueArray.push(currentLetter);
-  //     }
-  //   }
-
-  //   console.log(array);
-  //   console.log(uniqueArray);
-  //   return uniqueArray;
-  // };
-
   _.uniq = function(array) { //1,2,2,3,4
     var uniqueArray = [];
     for (var i = 0; i < array.length; i++) {
@@ -164,9 +140,6 @@
     // values into a new array of values. _.pluck() is solved for you
     // as an example of this.
     return _.map(collection, function(item) {
-      // console.log('collection: ' + JSON.stringify(collection));
-      // console.log('key: ' + key)
-      // console.log('item[key]: ' + item[key])
       return item[key];
     });
   };
@@ -192,7 +165,7 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    // if less than 3 arguments, use the first element as the starting point
+
     // if (arguments.length !== 3) {
     //   var accumulator = collection[0];
     //   // if (Array.isArray(collection)) {
@@ -605,13 +578,15 @@
   //  })
   //  sortedCollection;
 
-  return _.invoke(collection, function(item) {
-    if (item === undefined) {
-      return undefined;
+  if (typeof(iterator) === 'function') {
+      return collection.sort(function(a, b) {
+        return iterator(a)-iterator(b);
+      });
+    } else {
+      return collection.sort(function(a, b) {
+        return a[iterator]-b[iterator];
+      });
     }
-
-  });
-
 
 
   };
@@ -620,8 +595,32 @@
       // Zip together two or more arrays with elements of the same index
   // going together.
   //
-  // Example:
-  // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
+
+  // has to take into account unknown amount
+    // Example:
+    // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
+
+
+    var arrays = Array.prototype.slice.call(arguments);
+    var sortedArrays = arrays.sort(function (a, b) {
+      return b.length - a.length
+    });
+
+
+    var finalArray = [];
+    for(var i = 0; i < sortedArrays[0].length; i ++){
+      var tempArray =[]
+      for (var j = 0; j < sortedArrays.length; j++) {
+        if (!sortedArrays[j][i]) {
+          tempArray.push(undefined);
+        } else {
+          tempArray.push(sortedArrays[j][i]);
+        }
+      } // inner loops ends
+      finalArray.push(tempArray);
+    } // outer loops ends
+    return finalArray;
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -630,9 +629,9 @@
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
 
-
-
-
+    return _.reduce(nestedArray, function(prev, curr) {
+      return prev.concat(Array.isArray(curr) ? _.flatten(curr) : curr);
+    },[]);
 
   };
 
