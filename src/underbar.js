@@ -166,34 +166,47 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
 
-    // if (arguments.length !== 3) {
-    //   var accumulator = collection[0];
-    //   // if (Array.isArray(collection)) {
-    //   for (var i = 1; i < collection.length; i++) {
-    //     accumulator = iterator(accumulator, collection[i]);
-    //   }
-    //   return accumulator;
-    // } else {
-
-    //   // if (Array.isArray(collection)) {
-    //   for (var j = 0; j < collection.length; j++) {
-    //     accumulator = iterator(accumulator, collection[j]);
-    //     // }
-    //     return accumulator;
-      // }
-      var initializing = accumulator === undefined;
-      _.each(collection, function(item) {
-        if (initializing) {
-          accumulator = item;
-          initializing = false;
-        } else {
-          accumulator = iterator(accumulator, item);
+    if (accumulator === undefined) {
+      accumulator = collection[0];
+      if (Array.isArray(collection)) {
+        for (var i = 1; i < collection.length; i++) {
+          accumulator = iterator(accumulator, collection[i]);
         }
-      });
-      return accumulator;
+      } else {
+        for (var prop in collection) {
+          accumulator = iterator(accumulator, collection[prop])
+        }
+      }
+    } else {
+      if (Array.isArray(collection)) {
+        for (var j = 0; j < collection.length; j++) {
+          accumulator = iterator(accumulator, collection[j]);
+        }
+      } else {
+        for (var prop in collection) {
+          accumulator = iterator(accumulator, collection[prop]);
+        }
+      }
+    }
+
+    return accumulator;
+  }
 
 
-  };
+
+    //   var initializing = accumulator === undefined;
+    //   _.each(collection, function(item) {
+    //     if (initializing) {
+    //       accumulator = item;
+    //       initializing = false;
+    //     } else {
+    //       accumulator = iterator(accumulator, item);
+    //     }
+    //   });
+    //   return accumulator;
+    // }
+
+
 
 
 
@@ -501,32 +514,6 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
 
-  // check if functionOrKey is a function or just a 'string'
-  // if (typeof functionOrKey === 'function') {
-  //   return 'this failed because not a func'
-
-  // } else {
-  //   // var results = [];
-
-  //   for (var i = 0; i < collection.length; i++) {
-  //     results.push(collection[i])
-  //   }
-  // }
-  // // return results;
-
-
-  // };
-
-//collection, method
-//checks if it's a functions or STRING(method)
-// begins map (which will return an array)
-  // declaring what is an function
-  // if (isFunc) {
-  //   func = functionOrKey;
-  // } else {
-  //   func = element[functionOrKey];
-  // }
-
 
 // function(collection, functionOrKey, arg) {
 //     var args = Array.prototype.slice.call(arguments, 2);
@@ -546,7 +533,6 @@
       // console.log(item, typeof item);
       var method;
       if (typeof(functionOrKey) === 'string') {
-
         method = item[functionOrKey];
       } else {
         method = functionOrKey;
@@ -638,11 +624,26 @@
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var args = Array.prototype.slice.call(arguments);
+    var results = [];
+    // iterate through the first array's elements
+    for (var i = 0; i < args[0].length; i++) {
+      var currentElementOfFirstArray = args[0][i];
+      // iterate through all the other arrays's elements to check for a match
+      for (var j = 1; j < args.length; j++) {
+        // this is inside the 'following' array
+        for (var k = 0; k < args[j].length; k++) {
+          // now iterating through elements of 'following' array
+          // if there is a match, push to the results array
+          if (currentElementOfFirstArray === args[j][k]) {
+            results.push(currentElementOfFirstArray);
+          }
+        }
+      }
+    }
 
-
-
-
-
+    // return results
+    return results;
   };
 
   // Take the difference between one array and a number of other arrays.
